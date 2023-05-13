@@ -2,7 +2,7 @@
  * SORTING NODES WITHIN A CONTAINER
  * Please, make sure to read the following files in the exercises-info folder before you start
  * * 01 SelectNodes.md
-*/
+ */
 
 /**
  * @task
@@ -12,8 +12,7 @@
  */
 
 // Your code goes here...
-
-
+const allItems = document.querySelectorAll(".item");
 
 /**
  * @task
@@ -23,8 +22,7 @@
  * */
 
 // Your code goes here
-
-
+const main = document.getElementById("main");
 
 /**
  * @task
@@ -34,9 +32,7 @@
  */
 
 // Your code goes here
-
-
-
+const favs = document.getElementById("favs");
 /**
  * @task
  * Create the updateCollections(id, direction) function that follows the list of requirements:
@@ -47,8 +43,24 @@
  */
 
 // Your code goes here
-
-
+function updateCollections(itemId, direction) {
+  const targetItem = document.getElementById(itemId.toString());
+  if (direction === "toFavs") {
+    // remove the fa-heart-crack className from the targetItem
+    targetItem.childNodes[1].classList.add("fa-heart-crack");
+    // add the fa-heart-circle-plus className to the targetItem
+    targetItem.childNodes[1].classList.remove("fa-heart-circle-plus");
+    // move the item to the main container
+    favs.append(targetItem);
+  } else {
+    // remove the fa-heart-circle-plus className from the targetItem
+    targetItem.childNodes[1].classList.add("fa-heart-circle-plus");
+    // add the fa-heart-crack className to the targetItem
+    targetItem.childNodes[1].classList.remove("fa-heart-crack");
+    // move the item to the main container
+    main.append(targetItem);
+  }
+}
 
 /**
  * @task
@@ -65,5 +77,11 @@
  */
 
 // Your code goes here...
-
-
+allItems.forEach((item) => {
+  item.addEventListener("click", () => {
+    const itemId = item.id;
+    const parentId = item.parentNode.id;
+    const direction = parentId === "main" ? "toFavs" : "toMain";
+    updateCollections(itemId, direction);
+  });
+});

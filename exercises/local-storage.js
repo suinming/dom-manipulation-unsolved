@@ -38,3 +38,47 @@
  */
 
 // Your code goes here...
+const cardsContainer = document.querySelector(".cardsContainer");
+function setBgToRed(card) {
+  if (localStorage.getItem("favs")) {
+    const favs = localStorage.getItem("favs").split(",");
+    if (favs.includes(card.id)) {
+      // remove the backgroundColor
+      card.style.backgroundColor = "";
+      removeLsFromFavs(card.id);
+    } else {
+      // add the backgroundColor
+      card.style.backgroundColor = "red";
+      addLsToFavs(card.id);
+    }
+  } else {
+    // add the backgroundColor
+    card.style.backgroundColor = "red";
+    addLsToFavs(card.id);
+  }
+}
+function addLsToFavs(id) {
+  if (localStorage.getItem("favs")) {
+    let favs = localStorage.getItem("favs");
+    favs += `,${id}`;
+    localStorage.setItem("favs", favs);
+  } else {
+    localStorage.setItem("favs", id);
+  }
+}
+function removeLsFromFavs(id) {
+  let favs = localStorage.getItem("favs").split(",");
+  const indexOfDeleteId = favs.indexOf(id.toString());
+  if (indexOfDeleteId !== -1) {
+    favs.splice(indexOfDeleteId, 1);
+    localStorage.setItem("favs", favs);
+  }
+}
+function callback(e) {
+  const card = e.target;
+  if (Array.from(card.classList).includes("card")) {
+    setBgToRed(card);
+  }
+}
+
+cardsContainer.addEventListener("click", callback);
