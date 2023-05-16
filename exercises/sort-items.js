@@ -39,27 +39,19 @@ const sortBtn = document.querySelectorAll(".sortBtn");
 function sortData(direction) {
   const container = document.getElementById("main");
   const newArr = Array.from(allItems);
-  if (direction === "desc") {
-    newArr.sort(sortDesc);
-  }
-  if (direction === "asc") {
-    newArr.sort(sortAsc);
-  }
+  newArr.sort((nodeA, nodeB) => {
+    if (nodeA.id < nodeB.id) {
+      return direction === "asc" ? -1 : 1;
+    }
+    if (nodeA.id > nodeB.id) {
+      return direction === "desc" ? 1 : -1;
+    }
+    return 0;
+  });
   newArr.forEach((item) => {
     container.append(item);
   });
 }
-function sortDesc(nodeA, nodeB) {
-  if (nodeA.id > nodeB.id) return 1;
-  if (nodeA.id < nodeB.id) return -1;
-  return 0;
-}
-function sortAsc(nodeA, nodeB) {
-  if (nodeA.id < nodeB.id) return 1;
-  if (nodeA.id > nodeB.id) return -1;
-  return 0;
-}
-
 /**
  * @task
  * Iterate through the every item in sortBtn NodeList and apply the

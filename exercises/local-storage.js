@@ -39,20 +39,33 @@
 
 // Your code goes here...
 const cardsContainer = document.querySelector(".cardsContainer");
+
+// colored the div box in red if there are data in localstorage
+INIT_redBg();
+cardsContainer.addEventListener("click", callback);
+function INIT_redBg() {
+  if (
+    localStorage.getItem("favs") &&
+    localStorage.getItem("favs").split(",").length
+  ) {
+    const favs = localStorage.getItem("favs").split(",");
+    favs.map((cardId) => {
+      const card = document.getElementById(cardId);
+      card.style.backgroundColor = "red";
+    });
+  }
+}
 function setBgToRed(card) {
   if (localStorage.getItem("favs")) {
     const favs = localStorage.getItem("favs").split(",");
     if (favs.includes(card.id)) {
-      // remove the backgroundColor
       card.style.backgroundColor = "";
       removeLsFromFavs(card.id);
     } else {
-      // add the backgroundColor
       card.style.backgroundColor = "red";
       addLsToFavs(card.id);
     }
   } else {
-    // add the backgroundColor
     card.style.backgroundColor = "red";
     addLsToFavs(card.id);
   }
@@ -80,5 +93,3 @@ function callback(e) {
     setBgToRed(card);
   }
 }
-
-cardsContainer.addEventListener("click", callback);
